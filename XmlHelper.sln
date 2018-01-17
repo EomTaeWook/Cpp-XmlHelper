@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XmlParseLib", "XmlParseLib\XmlParseLib.vcxproj", "{176F3182-E305-48D2-BD2E-A10F103EED36}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{994DD7A9-2C74-47C7-AA92-6190B05BDEF9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Include", "Include", "{93199E9B-CA2E-4151-9CDA-7BB9FDD37A49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{4A245B65-EE2B-4062-AC78-18E1D60D1B16}"
+	ProjectSection(SolutionItems) = preProject
+		Lib\json_vc71_libmtd.lib = Lib\json_vc71_libmtd.lib
+		Lib\XmlParser.lib = Lib\XmlParser.lib
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "json", "json", "{31DC2858-FA82-4837-9776-F9C759555972}"
+	ProjectSection(SolutionItems) = preProject
+		Include\json\allocator.h = Include\json\allocator.h
+		Include\json\assertions.h = Include\json\assertions.h
+		Include\json\autolink.h = Include\json\autolink.h
+		Include\json\config.h = Include\json\config.h
+		Include\json\features.h = Include\json\features.h
+		Include\json\forwards.h = Include\json\forwards.h
+		Include\json\json.h = Include\json\json.h
+		Include\json\reader.h = Include\json\reader.h
+		Include\json\value.h = Include\json\value.h
+		Include\json\version.h = Include\json\version.h
+		Include\json\writer.h = Include\json\writer.h
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{176F3182-E305-48D2-BD2E-A10F103EED36}.Debug|x64.ActiveCfg = Debug|x64
+		{176F3182-E305-48D2-BD2E-A10F103EED36}.Debug|x64.Build.0 = Debug|x64
+		{176F3182-E305-48D2-BD2E-A10F103EED36}.Debug|x86.ActiveCfg = Debug|Win32
+		{176F3182-E305-48D2-BD2E-A10F103EED36}.Debug|x86.Build.0 = Debug|Win32
+		{176F3182-E305-48D2-BD2E-A10F103EED36}.Release|x64.ActiveCfg = Release|x64
+		{176F3182-E305-48D2-BD2E-A10F103EED36}.Release|x64.Build.0 = Release|x64
+		{176F3182-E305-48D2-BD2E-A10F103EED36}.Release|x86.ActiveCfg = Release|Win32
+		{176F3182-E305-48D2-BD2E-A10F103EED36}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{93199E9B-CA2E-4151-9CDA-7BB9FDD37A49} = {994DD7A9-2C74-47C7-AA92-6190B05BDEF9}
+		{4A245B65-EE2B-4062-AC78-18E1D60D1B16} = {994DD7A9-2C74-47C7-AA92-6190B05BDEF9}
+		{31DC2858-FA82-4837-9776-F9C759555972} = {93199E9B-CA2E-4151-9CDA-7BB9FDD37A49}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3A88EBC-C660-4D5A-BE77-154AF5379757}
+	EndGlobalSection
+EndGlobal
