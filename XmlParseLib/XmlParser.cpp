@@ -1,4 +1,5 @@
 #include "XmlParser.h"
+//JSONCPP LIB ERROR
 #pragma warning(disable:4996)
 CXmlParser::CXmlParser()
 {
