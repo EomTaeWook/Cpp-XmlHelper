@@ -6,8 +6,6 @@
 #include"json/json.h"
 #pragma comment(lib,"xmllite.lib")
 //JSONCPP LIB
-//JSONCPP LIB ERROR
-
 #pragma comment( lib , "json_vc71_libmtd.lib")
 class CXmlParser
 {
@@ -17,7 +15,7 @@ public:
 	bool FindAttributesValue(wstring elementName, wstring attributesKey, wstring value);
 	void StreamWrite(const void *pv, ULONG cb, ULONG *pcbWritten);
 	//GetNode
-	//errorΩ√ nullptr π›»Ø
+	//error¬Ω√É nullptr ¬π√ù√à¬Ø
 	CXmlNode* GetXmlNode();
 	void Clear();
 	char* JsonToXml(Json::Value& node);
