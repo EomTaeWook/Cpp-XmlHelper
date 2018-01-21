@@ -100,9 +100,10 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)$(Platform)\include"
-copy "$(SolutionDir)Lib\*.lib" "$(SolutionDir)$(Configuration)\$(Platform)"
-xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(Platform)\Include"</Command>
+      <Command>IF NOT EXIST "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include" (mkdir "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")
+copy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include"
+IF EXIST "$(SolutionDir)Lib" (copy "$(SolutionDir)Lib\*.lib" "$(SolutionDir)$(Configuration)\$(PlatformTarget)")
+IF EXIST "$(SolutionDir)Include" (xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include" (mkdir "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")
@@ -119,9 +120,10 @@ xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(PlatformTarg
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <PostBuildEvent>
-      <Command>xcopy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)$(Platform)\include"
-copy "$(SolutionDir)Lib\*.lib" "$(SolutionDir)$(Configuration)\$(Platform)"
-xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(Platform)\Include"</Command>
+      <Command>IF NOT EXIST "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include" (mkdir "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")
+copy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include"
+IF EXIST "$(SolutionDir)Lib" (copy "$(SolutionDir)Lib\*.lib" "$(SolutionDir)$(Configuration)\$(PlatformTarget)")
+IF EXIST "$(SolutionDir)Include" (xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include" (mkdir "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")
@@ -144,8 +146,10 @@ xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(PlatformTarg
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>IF NOT EXIST "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include" (mkdir "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")
+copy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include"
+IF EXIST "$(SolutionDir)Lib" (copy "$(SolutionDir)Lib\*.lib" "$(SolutionDir)$(Configuration)\$(PlatformTarget)")
+IF EXIST "$(SolutionDir)Include" (xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include" (mkdir "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")
@@ -168,8 +172,10 @@ xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(PlatformTarg
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>IF NOT EXIST "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include" (mkdir "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")
+copy "$(ProjectDir)*.h" "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include"
+IF EXIST "$(SolutionDir)Lib" (copy "$(SolutionDir)Lib\*.lib" "$(SolutionDir)$(Configuration)\$(PlatformTarget)")
+IF EXIST "$(SolutionDir)Include" (xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>IF NOT EXIST "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include" (mkdir "$(SolutionDir)$(Configuration)\$(PlatformTarget)\include")
