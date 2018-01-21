@@ -12,7 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lib", "Lib", "{4A245B65-EE2B-4062-AC78-18E1D60D1B16}"
 	ProjectSection(SolutionItems) = preProject
 		Lib\json_vc71_libmtd.lib = Lib\json_vc71_libmtd.lib
-		Lib\XmlParser.lib = Lib\XmlParser.lib
+		Lib\xmllite.lib = Lib\xmllite.lib
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "json", "json", "{31DC2858-FA82-4837-9776-F9C759555972}"
