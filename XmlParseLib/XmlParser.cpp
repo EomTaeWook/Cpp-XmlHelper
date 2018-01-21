@@ -300,7 +300,7 @@ char* CXmlParser::JsonToXml(Json::Value& node)
 	pStream->Read(pBuff, buffsize, &ulBytesRead);
 	pWriter->Release();
 	pStream->Release();
-	delete pWriter;
-	delete pStream;
+	pWriter = NULL;
+	pStream = NULL;
 	return pBuff;
 }
