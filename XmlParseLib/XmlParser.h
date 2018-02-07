@@ -20,8 +20,8 @@ public:
 	void Clear();
 	char* JsonToXml(Json::Value& node);
 private:
-	IXmlReader* pReader;
-	IStream* pStream;
+	IXmlReader* _pReader;
+	IStream* _pStream;
 	void ZeroPosition();
 	bool GetXmlAttributes(IXmlReader* pReader, wstring attributesKey, wstring value);
 	bool GetXmlAttributes(IXmlReader* pReader, CXmlNode* node);
@@ -30,16 +30,16 @@ private:
 
 inline void CXmlParser::ZeroPosition()
 {
-	if (pReader)
+	if (_pReader)
 	{
-		pReader->Release();
-		pReader = NULL;
+		_pReader->Release();
+		_pReader = NULL;
 	}
-	::CreateXmlReader(__uuidof(IXmlReader), reinterpret_cast<void**>(&pReader), 0);
-	pReader->SetProperty(XmlReaderProperty_DtdProcessing, DtdProcessing_Prohibit);
-	pReader->SetInput(pStream);
+	::CreateXmlReader(__uuidof(IXmlReader), reinterpret_cast<void**>(&_pStream), 0);
+	_pReader->SetProperty(XmlReaderProperty_DtdProcessing, DtdProcessing_Prohibit);
+	_pReader->SetInput(_pStream);
 	LARGE_INTEGER pos;
 	pos.QuadPart = 0;
-	if (pStream) pStream->Seek(pos, STREAM_SEEK_SET, NULL);
+	if (_pStream) _pStream->Seek(pos, STREAM_SEEK_SET, NULL);
 }
 

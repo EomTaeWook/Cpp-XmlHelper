@@ -36,15 +36,15 @@ public:
 class CXmlNode
 {
 private:
-	XmlData data;
-	vector<CXmlNode*> child;
-	CXmlNode* parent;
-	CXmlNode* next;
+	XmlData _data;
+	vector<CXmlNode*> _child;
+	CXmlNode* _parent;
+	CXmlNode* _next;
 public :
 	CXmlNode() 
 	{
-		parent = nullptr;
-		next = nullptr;
+		_parent = nullptr;
+		_next = nullptr;
 	}
 	~CXmlNode();
 	void Add(CXmlNode* node);
@@ -55,36 +55,37 @@ public :
 };
 inline vector<CXmlNode*>& CXmlNode::Node()
 {
-	return child;
+	return _child;
 }
 //형제 노드가 없으면 nullPtr return
 inline CXmlNode* CXmlNode::Next()
 {
-	return next;
+	return _next;
 }
 //자식노드 추가
 inline void CXmlNode::Add(CXmlNode* node)
 {
-	node->parent = this;
-	if (child.size() != 0)
+	node->_parent = this;
+	if (_child.size() != 0)
 	{
-		child.back()->next = node;
+		_child.back()->_next = node;
 	}
-	child.push_back(node);
+	_child.push_back(node);
 }
 inline XmlData& CXmlNode::GetData()
 {
-	return data;
+	return _data;
 }
 inline CXmlNode::~CXmlNode()
 {
-	for (int i = 0; i < child.size(); i++)
+	for (int i = 0; i < _child.size(); i++)
 	{
-		delete child[i];
+		delete _child[i];
+		_child[i] = NULL;
 	}
-	child.clear();
+	_child.clear();
 }
 inline bool CXmlNode::HasChildNodes()
 {
-	return child.size() != 0;
+	return _child.size() != 0;
 }

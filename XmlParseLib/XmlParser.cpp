@@ -3,17 +3,17 @@
 #pragma warning(disable:4996)
 CXmlParser::CXmlParser()
 {
-	::CreateStreamOnHGlobal(0, TRUE, &pStream);
-	pReader = NULL;
+	::CreateStreamOnHGlobal(0, TRUE, &_pStream);
+	_pReader = NULL;
 }
 CXmlParser::~CXmlParser()
 {
-	if (pStream)pStream->Release();
-	if (pReader)pReader->Release();
+	if (_pStream)_pStream->Release();
+	if (_pReader)_pReader->Release();
 }
 void CXmlParser::StreamWrite(const void *pv, ULONG cb,ULONG *pcbWritten)
 {
-	pStream->Write(pv, cb, pcbWritten);
+	_pStream->Write(pv, cb, pcbWritten);
 }
 bool CXmlParser::GetXmlAttributes(IXmlReader* pReader, wstring attributesKey, wstring pvalue)
 {
@@ -60,21 +60,21 @@ bool CXmlParser::FindAttributesValue(wstring elementName, wstring attributesKey,
 
 	XmlNodeType nodeType;
 	wstring m_elementName=L"";
-	while (S_OK == (pReader->Read(&nodeType)))
+	while (S_OK == (_pReader->Read(&nodeType)))
 	{
 		switch (nodeType)
 		{
 		case XmlNodeType_Element:
 			{
-				if (pReader->IsEmptyElement() )
+				if (_pReader->IsEmptyElement() )
 				{
 					break;
 				}
 				LPCWSTR prefix;
 				LPCWSTR localName;
 				UINT prefix_size;
-				if (pReader->GetPrefix(&prefix, &prefix_size)  != S_OK) return false;
-				if(pReader->GetLocalName(&localName, NULL) != S_OK)return false;
+				if (_pReader->GetPrefix(&prefix, &prefix_size)  != S_OK) return false;
+				if(_pReader->GetLocalName(&localName, NULL) != S_OK)return false;
 				if(prefix_size>0) 
 				{
 					m_elementName.append(prefix);
@@ -87,7 +87,7 @@ bool CXmlParser::FindAttributesValue(wstring elementName, wstring attributesKey,
 				}
 				if(m_elementName == elementName)
 				{
-					if(GetXmlAttributes(pReader, attributesKey, value))
+					if(GetXmlAttributes(_pReader, attributesKey, value))
 						return true;
 				}
 			}
@@ -98,8 +98,8 @@ bool CXmlParser::FindAttributesValue(wstring elementName, wstring attributesKey,
 				LPCWSTR prefix;
 				LPCWSTR localName;
 				UINT prefix_size;
-				if(pReader->GetPrefix(&prefix, &prefix_size) != S_OK) return false;
-				if(pReader->GetLocalName(&localName, NULL) != S_OK) return false;
+				if(_pReader->GetPrefix(&prefix, &prefix_size) != S_OK) return false;
+				if(_pReader->GetLocalName(&localName, NULL) != S_OK) return false;
 			}
 			break;
 		case XmlNodeType_Text:
@@ -154,11 +154,11 @@ bool CXmlParser::GetXmlAttributes(IXmlReader* pReader, CXmlNode* node)
 }
 void CXmlParser::Clear()
 {
-	if(pStream)
+	if(_pStream)
 	{
-		pStream->Release();
+		_pStream->Release();
 	}
-	::CreateStreamOnHGlobal(0, TRUE, &pStream);
+	::CreateStreamOnHGlobal(0, TRUE, &_pStream);
 	ZeroPosition();
 }
 CXmlNode* CXmlParser::GetXmlNode()
@@ -172,32 +172,32 @@ CXmlNode* CXmlParser::GetXmlNode()
 	nodeStack.push_back(root);
 	try
 	{
-		while (S_OK == (pReader->Read(&nodeType)))
+		while (S_OK == (_pReader->Read(&nodeType)))
 		{
 			switch (nodeType)
 			{
 			case XmlNodeType_Element:
 			{
-				if (pReader->IsEmptyElement() )
+				if (_pReader->IsEmptyElement() )
 				{
 					break;
 				}
 				LPCWSTR prefix;
 				LPCWSTR localName;
-				if (pReader->GetPrefix(&prefix, NULL) != S_OK) throw exception("Xml Element Prefix Parse Error");
-				if (pReader->GetLocalName(&localName, NULL) != S_OK) throw exception("Xml Element LocalName Parse Error");
+				if (_pReader->GetPrefix(&prefix, NULL) != S_OK) throw exception("Xml Element Prefix Parse Error");
+				if (_pReader->GetLocalName(&localName, NULL) != S_OK) throw exception("Xml Element LocalName Parse Error");
 				CXmlNode* node = new CXmlNode();
-				pReader->GetDepth(&node->GetData().depth);
+				_pReader->GetDepth(&node->GetData().depth);
 				node->GetData().prefix = prefix;
 				node->GetData().element = localName;
 				nodeStack.push_back(node);
-				if (!GetXmlAttributes(pReader, node)) throw exception("Xml Attribute Parse Error");
+				if (!GetXmlAttributes(_pReader, node)) throw exception("Xml Attribute Parse Error");
 				break;
 			}
 			case XmlNodeType_Text:
 				{
 					LPCWSTR value;
-					if (pReader->GetValue(&value, NULL) != S_OK) throw exception("Xml Text Parse Error");
+					if (_pReader->GetValue(&value, NULL) != S_OK) throw exception("Xml Text Parse Error");
 					nodeStack.back()->GetData().elementText = value;
 					break;
 				}
@@ -205,8 +205,8 @@ CXmlNode* CXmlParser::GetXmlNode()
 			{
 				LPCWSTR prefix;
 				LPCWSTR localName;
-				if (pReader->GetPrefix(&prefix, NULL) != S_OK) throw exception("Xml EndElement Prefix Parse Error");
-				if (pReader->GetLocalName(&localName, NULL) != S_OK) throw exception("Xml EndElement LocalName Parse Error");
+				if (_pReader->GetPrefix(&prefix, NULL) != S_OK) throw exception("Xml EndElement Prefix Parse Error");
+				if (_pReader->GetLocalName(&localName, NULL) != S_OK) throw exception("Xml EndElement LocalName Parse Error");
 				CXmlNode* node = nodeStack.back();
 				nodeStack.pop_back();
 				nodeStack.back()->Add(node);
