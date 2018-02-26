@@ -2,11 +2,12 @@
 //JSONCPP LIB ERROR
 #pragma warning(disable:4996)
 NS_UTIL_BEGIN
-XmlParser::XmlParser()
+XmlParser::XmlParser(void)
 {
 	::CreateStreamOnHGlobal(0, TRUE, &_pStream);
 	_pReader = NULL;
 }
+
 XmlParser::~XmlParser()
 {
 	if (_pStream)_pStream->Release();
@@ -242,7 +243,7 @@ void XmlParser::JsonToXml(Json::Value& node, IXmlWriter *pWriter)
 	string tmp;
 	if (node.isArray())
 	{
-		for (int i = 0; i < node.size(); i++)
+		for (size_t i = 0; i < node.size(); i++)
 		{
 			JsonToXml(node[i], pWriter);
 		}

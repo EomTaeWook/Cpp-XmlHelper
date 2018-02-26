@@ -78,7 +78,7 @@ inline XmlData& XmlNode::GetData()
 }
 inline XmlNode::~XmlNode()
 {
-	for (int i = 0; i < _child.size(); i++)
+	for (size_t i = 0; i < _child.size(); i++)
 	{
 		delete _child[i];
 		_child[i] = NULL;
