@@ -1,21 +1,22 @@
 #include "XmlParser.h"
 //JSONCPP LIB ERROR
 #pragma warning(disable:4996)
-CXmlParser::CXmlParser()
+NS_UTIL_BEGIN
+XmlParser::XmlParser()
 {
 	::CreateStreamOnHGlobal(0, TRUE, &_pStream);
 	_pReader = NULL;
 }
-CXmlParser::~CXmlParser()
+XmlParser::~XmlParser()
 {
 	if (_pStream)_pStream->Release();
 	if (_pReader)_pReader->Release();
 }
-void CXmlParser::StreamWrite(const void *pv, ULONG cb,ULONG *pcbWritten)
+void XmlParser::StreamWrite(const void *pv, ULONG cb,ULONG *pcbWritten)
 {
 	_pStream->Write(pv, cb, pcbWritten);
 }
-bool CXmlParser::GetXmlAttributes(IXmlReader* pReader, wstring attributesKey, wstring pvalue)
+bool XmlParser::GetXmlAttributes(IXmlReader* pReader, wstring attributesKey, wstring pvalue)
 {
 	HRESULT hr = pReader->MoveToFirstAttribute();
 	wstring m_attributesKey=L"";
@@ -54,7 +55,7 @@ bool CXmlParser::GetXmlAttributes(IXmlReader* pReader, wstring attributesKey, ws
 	}
 	return false;
 }
-bool CXmlParser::FindAttributesValue(wstring elementName, wstring attributesKey, wstring value)
+bool XmlParser::FindAttributesValue(wstring elementName, wstring attributesKey, wstring value)
 {
 	ZeroPosition();
 
@@ -113,7 +114,7 @@ bool CXmlParser::FindAttributesValue(wstring elementName, wstring attributesKey,
 	}
 	return false;
 }
-bool CXmlParser::GetXmlAttributes(IXmlReader* pReader, CXmlNode* node)
+bool XmlParser::GetXmlAttributes(IXmlReader* pReader, XmlNode* node)
 {
 	HRESULT hr = pReader->MoveToFirstAttribute();
 	if (S_OK != hr)
@@ -152,7 +153,7 @@ bool CXmlParser::GetXmlAttributes(IXmlReader* pReader, CXmlNode* node)
 	}
 	return true;
 }
-void CXmlParser::Clear()
+void XmlParser::Clear()
 {
 	if(_pStream)
 	{
@@ -161,14 +162,14 @@ void CXmlParser::Clear()
 	::CreateStreamOnHGlobal(0, TRUE, &_pStream);
 	ZeroPosition();
 }
-CXmlNode* CXmlParser::GetXmlNode()
+XmlNode* XmlParser::GetXmlNode()
 {
 	ZeroPosition();
 
 	XmlNodeType nodeType;
 			
-	vector<CXmlNode*> nodeStack;
-	CXmlNode* root = new CXmlNode();
+	vector<XmlNode*> nodeStack;
+	XmlNode* root = new XmlNode();
 	nodeStack.push_back(root);
 	try
 	{
@@ -186,7 +187,7 @@ CXmlNode* CXmlParser::GetXmlNode()
 				LPCWSTR localName;
 				if (_pReader->GetPrefix(&prefix, NULL) != S_OK) throw exception("Xml Element Prefix Parse Error");
 				if (_pReader->GetLocalName(&localName, NULL) != S_OK) throw exception("Xml Element LocalName Parse Error");
-				CXmlNode* node = new CXmlNode();
+				XmlNode* node = new XmlNode();
 				_pReader->GetDepth(&node->GetData().depth);
 				node->GetData().prefix = prefix;
 				node->GetData().element = localName;
@@ -207,7 +208,7 @@ CXmlNode* CXmlParser::GetXmlNode()
 				LPCWSTR localName;
 				if (_pReader->GetPrefix(&prefix, NULL) != S_OK) throw exception("Xml EndElement Prefix Parse Error");
 				if (_pReader->GetLocalName(&localName, NULL) != S_OK) throw exception("Xml EndElement LocalName Parse Error");
-				CXmlNode* node = nodeStack.back();
+				XmlNode* node = nodeStack.back();
 				nodeStack.pop_back();
 				nodeStack.back()->Add(node);
 				break;
@@ -234,7 +235,7 @@ CXmlNode* CXmlParser::GetXmlNode()
 	return root;
 }
 
-void CXmlParser::JsonToXml(Json::Value& node, IXmlWriter *pWriter)
+void XmlParser::JsonToXml(Json::Value& node, IXmlWriter *pWriter)
 {
 	wstring key;
 	wstring value;
@@ -277,7 +278,7 @@ void CXmlParser::JsonToXml(Json::Value& node, IXmlWriter *pWriter)
 	}
 }
 
-char* CXmlParser::JsonToXml(Json::Value& node)
+char* XmlParser::JsonToXml(Json::Value& node)
 {
 	IStream* pStream;
 	::CreateStreamOnHGlobal(0, TRUE, &pStream);
@@ -304,3 +305,4 @@ char* CXmlParser::JsonToXml(Json::Value& node)
 	pStream = NULL;
 	return pBuff;
 }
+NS_UTIL_END

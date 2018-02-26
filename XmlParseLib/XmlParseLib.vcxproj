@@ -185,6 +185,7 @@ xcopy "$(SolutionDir)Include\*.*" "$(SolutionDir)$(Configuration)\$(PlatformTarg
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="NS.h" />
     <ClInclude Include="XmlNode.h" />
     <ClInclude Include="XmlParser.h" />
   </ItemGroup>
