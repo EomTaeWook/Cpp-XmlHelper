@@ -243,7 +243,7 @@ void XmlParser::JsonToXml(Json::Value& node, IXmlWriter *pWriter)
 	string tmp;
 	if (node.isArray())
 	{
-		for (size_t i = 0; i < node.size(); i++)
+		for (int i = 0; i < node.size(); i++)
 		{
 			JsonToXml(node[i], pWriter);
 		}
