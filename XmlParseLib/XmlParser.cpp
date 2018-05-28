@@ -1,7 +1,7 @@
 #include "XmlParser.h"
 //JSONCPP LIB ERROR
 #pragma warning(disable:4996)
-NS_UTIL_BEGIN
+NS_XML_BEGIN
 XmlParser::XmlParser(void)
 {
 	::CreateStreamOnHGlobal(0, TRUE, &_pStream);
@@ -17,10 +17,10 @@ void XmlParser::StreamWrite(const void *pv, ULONG cb,ULONG *pcbWritten)
 {
 	_pStream->Write(pv, cb, pcbWritten);
 }
-bool XmlParser::GetXmlAttributes(IXmlReader* pReader, wstring attributesKey, wstring pvalue)
+bool XmlParser::GetXmlAttributes(IXmlReader* pReader, std::wstring attributesKey, std::wstring pvalue)
 {
 	HRESULT hr = pReader->MoveToFirstAttribute();
-	wstring m_attributesKey=L"";
+	std::wstring m_attributesKey=L"";
 	unsigned int cwchPrefix;
 	if (S_OK != hr)
 		return false;
@@ -56,12 +56,12 @@ bool XmlParser::GetXmlAttributes(IXmlReader* pReader, wstring attributesKey, wst
 	}
 	return false;
 }
-bool XmlParser::FindAttributesValue(wstring elementName, wstring attributesKey, wstring value)
+bool XmlParser::FindAttributesValue(std::wstring elementName, std::wstring attributesKey, std::wstring value)
 {
 	ZeroPosition();
 
 	XmlNodeType nodeType;
-	wstring m_elementName=L"";
+	std::wstring m_elementName=L"";
 	while (S_OK == (_pReader->Read(&nodeType)))
 	{
 		switch (nodeType)
@@ -120,7 +120,7 @@ bool XmlParser::GetXmlAttributes(IXmlReader* pReader, XmlNode* node)
 	HRESULT hr = pReader->MoveToFirstAttribute();
 	if (S_OK != hr)
 		return true;
-	wstring mapKey;
+	std::wstring mapKey;
 	while (TRUE)
 	{
 		if (!pReader->IsDefault())
@@ -138,14 +138,14 @@ bool XmlParser::GetXmlAttributes(IXmlReader* pReader, XmlNode* node)
 			attribute->attributeValue = value;
 			if(prefix_size == 0)
 			{
-				node->GetData().attribute.insert(make_pair(localName, attribute));
+				node->GetData().attribute.insert(std::make_pair(localName, attribute));
 			}
 			else
 			{
 				mapKey = prefix;
 				mapKey.append(L":");
 				mapKey.append(localName);
-				node->GetData().attribute.insert(make_pair(mapKey, attribute));
+				node->GetData().attribute.insert(std::make_pair(mapKey, attribute));
 				mapKey.clear();
 			}
 		}
@@ -169,7 +169,7 @@ XmlNode* XmlParser::GetXmlNode()
 
 	XmlNodeType nodeType;
 			
-	vector<XmlNode*> nodeStack;
+	std::vector<XmlNode*> nodeStack;
 	XmlNode* root = new XmlNode();
 	nodeStack.push_back(root);
 	try
@@ -186,20 +186,20 @@ XmlNode* XmlParser::GetXmlNode()
 				}
 				LPCWSTR prefix;
 				LPCWSTR localName;
-				if (_pReader->GetPrefix(&prefix, NULL) != S_OK) throw exception("Xml Element Prefix Parse Error");
-				if (_pReader->GetLocalName(&localName, NULL) != S_OK) throw exception("Xml Element LocalName Parse Error");
+				if (_pReader->GetPrefix(&prefix, NULL) != S_OK) throw std::exception("Xml Element Prefix Parse Error");
+				if (_pReader->GetLocalName(&localName, NULL) != S_OK) throw std::exception("Xml Element LocalName Parse Error");
 				XmlNode* node = new XmlNode();
 				_pReader->GetDepth(&node->GetData().depth);
 				node->GetData().prefix = prefix;
 				node->GetData().element = localName;
 				nodeStack.push_back(node);
-				if (!GetXmlAttributes(_pReader, node)) throw exception("Xml Attribute Parse Error");
+				if (!GetXmlAttributes(_pReader, node)) throw std::exception("Xml Attribute Parse Error");
 				break;
 			}
 			case XmlNodeType_Text:
 				{
 					LPCWSTR value;
-					if (_pReader->GetValue(&value, NULL) != S_OK) throw exception("Xml Text Parse Error");
+					if (_pReader->GetValue(&value, NULL) != S_OK) throw std::exception("Xml Text Parse Error");
 					nodeStack.back()->GetData().elementText = value;
 					break;
 				}
@@ -207,8 +207,8 @@ XmlNode* XmlParser::GetXmlNode()
 			{
 				LPCWSTR prefix;
 				LPCWSTR localName;
-				if (_pReader->GetPrefix(&prefix, NULL) != S_OK) throw exception("Xml EndElement Prefix Parse Error");
-				if (_pReader->GetLocalName(&localName, NULL) != S_OK) throw exception("Xml EndElement LocalName Parse Error");
+				if (_pReader->GetPrefix(&prefix, NULL) != S_OK) throw std::exception("Xml EndElement Prefix Parse Error");
+				if (_pReader->GetLocalName(&localName, NULL) != S_OK) throw std::exception("Xml EndElement LocalName Parse Error");
 				XmlNode* node = nodeStack.back();
 				nodeStack.pop_back();
 				nodeStack.back()->Add(node);
@@ -224,7 +224,7 @@ XmlNode* XmlParser::GetXmlNode()
 			}
 		}
 	}
-	catch(exception ex)
+	catch(std::exception ex)
 	{
 		while(!nodeStack.empty())
 		{
@@ -238,9 +238,9 @@ XmlNode* XmlParser::GetXmlNode()
 
 void XmlParser::JsonToXml(Json::Value& node, IXmlWriter *pWriter)
 {
-	wstring key;
-	wstring value;
-	string tmp;
+	std::wstring key;
+	std::wstring value;
+	std::string tmp;
 	if (node.isArray())
 	{
 		for (int i = 0; i < node.size(); i++)
@@ -306,4 +306,4 @@ char* XmlParser::JsonToXml(Json::Value& node)
 	pStream = NULL;
 	return pBuff;
 }
-NS_UTIL_END
+NS_XML_END

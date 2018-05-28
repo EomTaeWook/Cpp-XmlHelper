@@ -8,13 +8,13 @@
 #pragma comment(lib,"xmllite.lib")
 //JSONCPP LIB
 #pragma comment( lib , "json_vc71_libmtd.lib")
-NS_UTIL_BEGIN
+NS_XML_BEGIN
 	class XmlParser
 	{
 	public:
 		XmlParser(void);
 		virtual ~XmlParser(void);
-		bool FindAttributesValue(wstring elementName, wstring attributesKey, wstring value);
+		bool FindAttributesValue(std::wstring elementName, std::wstring attributesKey, std::wstring value);
 		void StreamWrite(const void *pv, ULONG cb, ULONG *pcbWritten);
 		//GetNode
 		
@@ -25,7 +25,7 @@ NS_UTIL_BEGIN
 		IXmlReader* _pReader;
 		IStream* _pStream;
 		void ZeroPosition();
-		bool GetXmlAttributes(IXmlReader* pReader, wstring attributesKey, wstring value);
+		bool GetXmlAttributes(IXmlReader* pReader, std::wstring attributesKey, std::wstring value);
 		bool GetXmlAttributes(IXmlReader* pReader, XmlNode* node);
 		void JsonToXml(Json::Value& node, IXmlWriter *pWriter);
 	};
@@ -37,11 +37,11 @@ NS_UTIL_BEGIN
 			_pReader->Release();
 			_pReader = NULL;
 		}
-		::CreateXmlReader(__uuidof(IXmlReader), reinterpret_cast<void**>(&_pStream), 0);
+		::CreateXmlReader(__uuidof(IXmlReader), reinterpret_cast<void**>(&_pReader), 0);
 		_pReader->SetProperty(XmlReaderProperty_DtdProcessing, DtdProcessing_Prohibit);
 		_pReader->SetInput(_pStream);
 		LARGE_INTEGER pos;
 		pos.QuadPart = 0;
 		if (_pStream) _pStream->Seek(pos, STREAM_SEEK_SET, NULL);
 	}
-NS_UTIL_END
+NS_XML_END

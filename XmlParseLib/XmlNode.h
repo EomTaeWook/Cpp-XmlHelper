@@ -2,25 +2,25 @@
 #include<string>
 #include<vector>
 #include<map>
-using namespace std;
-
+#include "NS.h"
 //작성자 엄태욱 2018-01-10
 //형태는 Data와 같으나 햇갈릴 위험이 있음으로
+NS_XML_BEGIN
 class XmlArribute
 {
 public:
-	wstring prefix;
-	wstring attributeKey;
-	wstring attributeValue;
+	std::wstring prefix;
+	std::wstring attributeKey;
+	std::wstring attributeValue;
 };
 class XmlData
 {
 public:
 	unsigned int depth;
-	wstring prefix;
-	wstring element;
-	wstring elementText;
-	std::map <wstring, XmlArribute*> attribute;
+	std::wstring prefix;
+	std::wstring element;
+	std::wstring elementText;
+	std::map <std::wstring, XmlArribute*> attribute;
 public:
 	XmlData() {};
 	~XmlData()
@@ -37,10 +37,10 @@ class XmlNode
 {
 private:
 	XmlData _data;
-	vector<XmlNode*> _child;
+	std::vector<XmlNode*> _child;
 	XmlNode* _parent;
 	XmlNode* _next;
-public :
+public:
 	XmlNode()
 	{
 		_parent = nullptr;
@@ -48,12 +48,12 @@ public :
 	}
 	~XmlNode();
 	void Add(XmlNode* node);
-	vector<XmlNode*>& Node();
+	std::vector<XmlNode*>& Node();
 	XmlNode* Next();
 	bool HasChildNodes();
 	XmlData& GetData();
 };
-inline vector<XmlNode*>& XmlNode::Node()
+inline std::vector<XmlNode*>& XmlNode::Node()
 {
 	return _child;
 }
@@ -89,3 +89,4 @@ inline bool XmlNode::HasChildNodes()
 {
 	return _child.size() != 0;
 }
+NS_XML_END
