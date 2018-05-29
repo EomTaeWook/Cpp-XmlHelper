@@ -2,17 +2,6 @@
 //JSONCPP LIB ERROR
 #pragma warning(disable:4996)
 NS_XML_BEGIN
-XmlParser::XmlParser(void)
-{
-	::CreateStreamOnHGlobal(0, TRUE, &_pStream);
-	_pReader = NULL;
-}
-
-XmlParser::~XmlParser()
-{
-	if (_pStream)_pStream->Release();
-	if (_pReader)_pReader->Release();
-}
 void XmlParser::StreamWrite(const void *pv, ULONG cb,ULONG *pcbWritten)
 {
 	_pStream->Write(pv, cb, pcbWritten);
@@ -243,7 +232,7 @@ void XmlParser::JsonToXml(Json::Value& node, IXmlWriter *pWriter)
 	std::string tmp;
 	if (node.isArray())
 	{
-		for (int i = 0; i < node.size(); i++)
+		for (unsigned int i = 0; i < node.size(); i++)
 		{
 			JsonToXml(node[i], pWriter);
 		}
@@ -296,7 +285,7 @@ char* XmlParser::JsonToXml(Json::Value& node)
 	pStream->Seek(l, 0, NULL);
 	HGLOBAL hg;
 	GetHGlobalFromStream(pStream, &hg);
-	int buffsize = GlobalSize(hg);
+	auto buffsize = GlobalSize(hg);
 	char *pBuff = new char[buffsize];
 	ULONG ulBytesRead;
 	pStream->Read(pBuff, buffsize, &ulBytesRead);
