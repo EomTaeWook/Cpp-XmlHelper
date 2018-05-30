@@ -285,10 +285,10 @@ char* XmlParser::JsonToXml(Json::Value& node)
 	pStream->Seek(l, 0, NULL);
 	HGLOBAL hg;
 	GetHGlobalFromStream(pStream, &hg);
-	auto buffsize = GlobalSize(hg);
+	ULONG_PTR buffsize = GlobalSize(hg);
 	char *pBuff = new char[buffsize];
 	ULONG ulBytesRead;
-	pStream->Read(pBuff, buffsize, &ulBytesRead);
+	pStream->Read(pBuff, (ULONG_PTR)buffsize, &ulBytesRead);
 	pWriter->Release();
 	pStream->Release();
 	pWriter = NULL;
