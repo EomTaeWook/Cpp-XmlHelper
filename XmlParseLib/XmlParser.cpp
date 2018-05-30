@@ -2,18 +2,18 @@
 //JSONCPP LIB ERROR
 #pragma warning(disable:4996)
 NS_XML_BEGIN
-void XmlParser::StreamWrite(const void *pv, ULONG cb,ULONG *pcbWritten)
+void XmlParser::StreamWrite(const void *pv, ULONG cb, ULONG *pcbWritten)
 {
 	_pStream->Write(pv, cb, pcbWritten);
 }
 bool XmlParser::GetXmlAttributes(IXmlReader* pReader, std::wstring attributesKey, std::wstring pvalue)
 {
 	HRESULT hr = pReader->MoveToFirstAttribute();
-	std::wstring m_attributesKey=L"";
+	std::wstring m_attributesKey = L"";
 	unsigned int cwchPrefix;
 	if (S_OK != hr)
 		return false;
-	while(TRUE)
+	while (TRUE)
 	{
 		if (!pReader->IsDefault())
 		{
@@ -22,7 +22,7 @@ bool XmlParser::GetXmlAttributes(IXmlReader* pReader, std::wstring attributesKey
 			LPCWSTR value;
 			if (pReader->GetPrefix(&prefix, &cwchPrefix) != S_OK) return false;
 			if (pReader->GetLocalName(&localName, NULL) != S_OK) return false;
-			if(pReader->GetValue(&value, NULL) != S_OK) return false;
+			if (pReader->GetValue(&value, NULL) != S_OK) return false;
 			if (cwchPrefix > 0)
 			{
 				m_attributesKey.append(prefix);
@@ -33,10 +33,10 @@ bool XmlParser::GetXmlAttributes(IXmlReader* pReader, std::wstring attributesKey
 			{
 				m_attributesKey.append(localName);
 			}
-                 
-			if(m_attributesKey == attributesKey)
+
+			if (m_attributesKey == attributesKey)
 			{
-				if(value == pvalue) return true;
+				if (value == pvalue) return true;
 				else return false;
 			}
 		}
@@ -50,49 +50,49 @@ bool XmlParser::FindAttributesValue(std::wstring elementName, std::wstring attri
 	ZeroPosition();
 
 	XmlNodeType nodeType;
-	std::wstring m_elementName=L"";
+	std::wstring m_elementName = L"";
 	while (S_OK == (_pReader->Read(&nodeType)))
 	{
 		switch (nodeType)
 		{
 		case XmlNodeType_Element:
+		{
+			if (_pReader->IsEmptyElement())
 			{
-				if (_pReader->IsEmptyElement() )
-				{
-					break;
-				}
-				LPCWSTR prefix;
-				LPCWSTR localName;
-				UINT prefix_size;
-				if (_pReader->GetPrefix(&prefix, &prefix_size)  != S_OK) return false;
-				if(_pReader->GetLocalName(&localName, NULL) != S_OK)return false;
-				if(prefix_size>0) 
-				{
-					m_elementName.append(prefix);
-					m_elementName.append(L":");
-					m_elementName.append(localName);
-				}
-				else 
-				{
-					m_elementName.append(localName);
-				}
-				if(m_elementName == elementName)
-				{
-					if(GetXmlAttributes(_pReader, attributesKey, value))
-						return true;
-				}
+				break;
 			}
-			break;
-					
+			LPCWSTR prefix;
+			LPCWSTR localName;
+			UINT prefix_size;
+			if (_pReader->GetPrefix(&prefix, &prefix_size) != S_OK) return false;
+			if (_pReader->GetLocalName(&localName, NULL) != S_OK)return false;
+			if (prefix_size>0)
+			{
+				m_elementName.append(prefix);
+				m_elementName.append(L":");
+				m_elementName.append(localName);
+			}
+			else
+			{
+				m_elementName.append(localName);
+			}
+			if (m_elementName == elementName)
+			{
+				if (GetXmlAttributes(_pReader, attributesKey, value))
+					return true;
+			}
+		}
+		break;
+
 		case XmlNodeType_EndElement:
-			{
-				LPCWSTR prefix;
-				LPCWSTR localName;
-				UINT prefix_size;
-				if(_pReader->GetPrefix(&prefix, &prefix_size) != S_OK) return false;
-				if(_pReader->GetLocalName(&localName, NULL) != S_OK) return false;
-			}
-			break;
+		{
+			LPCWSTR prefix;
+			LPCWSTR localName;
+			UINT prefix_size;
+			if (_pReader->GetPrefix(&prefix, &prefix_size) != S_OK) return false;
+			if (_pReader->GetLocalName(&localName, NULL) != S_OK) return false;
+		}
+		break;
 		case XmlNodeType_Text:
 		case XmlNodeType_CDATA:
 		case XmlNodeType_Whitespace:
@@ -121,11 +121,11 @@ bool XmlParser::GetXmlAttributes(IXmlReader* pReader, XmlNode* node)
 			if (pReader->GetPrefix(&prefix, &prefix_size) != S_OK) return false;
 			if (pReader->GetLocalName(&localName, NULL) != S_OK) return false;
 			if (pReader->GetValue(&value, NULL) != S_OK) return false;
-			XmlArribute* attribute = new XmlArribute() ;
+			XmlArribute* attribute = new XmlArribute();
 			attribute->prefix = prefix;
 			attribute->attributeKey = localName;
 			attribute->attributeValue = value;
-			if(prefix_size == 0)
+			if (prefix_size == 0)
 			{
 				node->GetData().attribute.insert(std::make_pair(localName, attribute));
 			}
@@ -145,7 +145,7 @@ bool XmlParser::GetXmlAttributes(IXmlReader* pReader, XmlNode* node)
 }
 void XmlParser::Clear()
 {
-	if(_pStream)
+	if (_pStream)
 	{
 		_pStream->Release();
 	}
@@ -157,7 +157,7 @@ XmlNode* XmlParser::GetXmlNode()
 	ZeroPosition();
 
 	XmlNodeType nodeType;
-			
+
 	std::vector<XmlNode*> nodeStack;
 	XmlNode* root = new XmlNode();
 	nodeStack.push_back(root);
@@ -169,7 +169,7 @@ XmlNode* XmlParser::GetXmlNode()
 			{
 			case XmlNodeType_Element:
 			{
-				if (_pReader->IsEmptyElement() )
+				if (_pReader->IsEmptyElement())
 				{
 					break;
 				}
@@ -186,12 +186,12 @@ XmlNode* XmlParser::GetXmlNode()
 				break;
 			}
 			case XmlNodeType_Text:
-				{
-					LPCWSTR value;
-					if (_pReader->GetValue(&value, NULL) != S_OK) throw std::exception("Xml Text Parse Error");
-					nodeStack.back()->GetData().elementText = value;
-					break;
-				}
+			{
+				LPCWSTR value;
+				if (_pReader->GetValue(&value, NULL) != S_OK) throw std::exception("Xml Text Parse Error");
+				nodeStack.back()->GetData().elementText = value;
+				break;
+			}
 			case XmlNodeType_EndElement:
 			{
 				LPCWSTR prefix;
@@ -213,9 +213,9 @@ XmlNode* XmlParser::GetXmlNode()
 			}
 		}
 	}
-	catch(std::exception ex)
+	catch (std::exception ex)
 	{
-		while(!nodeStack.empty())
+		while (!nodeStack.empty())
 		{
 			delete nodeStack.back();
 			nodeStack.pop_back();
