@@ -16,5 +16,6 @@ Convert Json To Xml
 
 Json은 Jsoncpp를 사용하며 Xml은 Xmllite 사용
 
-Json::Value node
+Json::Value node;
+
 unique_ptr < char[] > p_Xml(xmlParser.JsonToXml(node));
