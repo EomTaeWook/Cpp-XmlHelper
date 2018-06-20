@@ -8,7 +8,9 @@ XmlParser xmlParser;
 
 xmlParser.StreamWrite(string, string.size(), &returnCallbackSize);
 
-unique_ptr<Helper::Xml::XmlNode>pRootNode(xmlParser.GetXmlNode()); 
+unique_ptr
+<Helper::Xml::XmlNode>
+pRootNode(xmlParser.GetXmlNode()); 
 
 
 
